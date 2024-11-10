@@ -20,9 +20,19 @@ namespace Complete
         private float m_OriginalPitch;              // The pitch of the audio source at the start of the scene.
         private ParticleSystem[] m_particleSystems; // References to all the particles systems used by the Tanks
 
+        public GameObject Turret;    //・砲塔のゲームオブジェクトの参照
+        private float m_TurretTurnInputValue; //・砲塔を回転するキーの入力量
+        private float m_TurretTurnSpeed = 180f; //・砲塔の回転速度
+        private string m_TurretTurnAxisName; //・手順1で定義した砲塔を回転するキーのName
+
         private void Awake ()
         {
             m_Rigidbody = GetComponent<Rigidbody> ();
+
+            if (Turret == null){
+                Debug.LogError("Turretオブジェクトが見つかりません");
+            }
+
         }
 
 
@@ -34,6 +44,8 @@ namespace Complete
             // Also reset the input values.
             m_MovementInputValue = 0f;
             m_TurnInputValue = 0f;
+
+            m_TurretTurnInputValue = 0f;
 
             // We grab all the Particle systems child of that Tank to be able to Stop/Play them on Deactivate/Activate
             // It is needed because we move the Tank when spawning it, and if the Particle System is playing while we do that
@@ -65,6 +77,8 @@ namespace Complete
             m_MovementAxisName = "Vertical" + m_PlayerNumber;
             m_TurnAxisName = "Horizontal" + m_PlayerNumber;
 
+            m_TurretTurnAxisName = "TurretTurn" + m_PlayerNumber;
+
             // Store the original pitch of the audio source.
             m_OriginalPitch = m_MovementAudio.pitch;
         }
@@ -75,6 +89,8 @@ namespace Complete
             // Store the value of both input axes.
             m_MovementInputValue = Input.GetAxis (m_MovementAxisName);
             m_TurnInputValue = Input.GetAxis (m_TurnAxisName);
+
+            m_TurretTurnInputValue = Input.GetAxis (m_TurretTurnAxisName);
 
             EngineAudio ();
         }
@@ -113,6 +129,8 @@ namespace Complete
             // Adjust the rigidbodies position and orientation in FixedUpdate.
             Move ();
             Turn ();
+
+            TurretTurn();
         }
 
 
@@ -136,6 +154,20 @@ namespace Complete
 
             // Apply this rotation to the rigidbody's rotation.
             m_Rigidbody.MoveRotation (m_Rigidbody.rotation * turnRotation);
+        }
+
+
+        private void TurretTurn()
+        {
+            float turretturn = m_TurretTurnInputValue * m_TurretTurnSpeed * Time.deltaTime;
+            
+            Quaternion targetRotation = Quaternion.Euler(
+                Turret.transform.rotation.eulerAngles.x,
+                Turret.transform.rotation.eulerAngles.y + turretturn,
+                Turret.transform.rotation.eulerAngles.z
+            );
+
+            Turret.transform.rotation = targetRotation;
         }
     }
 }
