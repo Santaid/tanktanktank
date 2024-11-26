@@ -22,6 +22,10 @@ namespace Complete
         private float m_ChargeSpeed;                // How fast the launch force increases, based on the max charge time.
         private bool m_Fired;                       // Whether or not the shell has been launched with this button press.
 
+        private const int m_FirstBullets = 10;//初期状態の弾数
+        private int m_NowBullets;//現在の弾数
+        private const int m_MaxBullets = 50;//持てる弾数の最大値
+        private const int m_ReloadBullets = 10;//補充される弾数
 
         private void OnEnable()
         {
@@ -38,11 +42,22 @@ namespace Complete
 
             // The rate that the launch force charges up is the range of possible forces by the max charge time.
             m_ChargeSpeed = (m_MaxLaunchForce - m_MinLaunchForce) / m_MaxChargeTime;
+
+            m_NowBullets = m_FirstBullets;//現在の弾数の再設定
+
         }
 
 
         private void Update ()
         {
+            //Debug.Log(m_NowBullets);//現在の弾数の確認用
+            //0以下なら何もせず返す
+            if (m_NowBullets <= 0) 
+            {
+                m_NowBullets = 0;
+                return;
+            }
+
             // The slider should have a default value of the minimum launch force.
             m_AimSlider.value = m_MinLaunchForce;
 
@@ -83,6 +98,8 @@ namespace Complete
 
         private void Fire ()
         {
+            //１度撃つごとに弾丸を１減らす
+            m_NowBullets--;
             // Set the fired flag so only Fire is only called once.
             m_Fired = true;
 

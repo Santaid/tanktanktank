@@ -29,7 +29,7 @@ namespace Complete
         {
             m_Rigidbody = GetComponent<Rigidbody> ();
 
-            if (Turret == null){
+            if (Turret == null){//砲塔オブジェクトのNullチェック
                 Debug.LogError("Turretオブジェクトが見つかりません");
             }
 
@@ -45,7 +45,7 @@ namespace Complete
             m_MovementInputValue = 0f;
             m_TurnInputValue = 0f;
 
-            m_TurretTurnInputValue = 0f;
+            m_TurretTurnInputValue = 0f;//砲塔の回転角の初期化
 
             // We grab all the Particle systems child of that Tank to be able to Stop/Play them on Deactivate/Activate
             // It is needed because we move the Tank when spawning it, and if the Particle System is playing while we do that
@@ -77,7 +77,7 @@ namespace Complete
             m_MovementAxisName = "Vertical" + m_PlayerNumber;
             m_TurnAxisName = "Horizontal" + m_PlayerNumber;
 
-            m_TurretTurnAxisName = "TurretTurn" + m_PlayerNumber;
+            m_TurretTurnAxisName = "TurretTurn" + m_PlayerNumber;//砲塔にも名前を付ける
 
             // Store the original pitch of the audio source.
             m_OriginalPitch = m_MovementAudio.pitch;
@@ -130,7 +130,7 @@ namespace Complete
             Move ();
             Turn ();
 
-            TurretTurn();
+            TurretTurn();//砲塔を回転させるメソッドの追加
         }
 
 
@@ -157,7 +157,7 @@ namespace Complete
         }
 
 
-        private void TurretTurn()
+        private void TurretTurn()//砲塔を回転させるメソッド
         {
             float turretturn = m_TurretTurnInputValue * m_TurretTurnSpeed * Time.deltaTime;
             
