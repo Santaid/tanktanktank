@@ -25,7 +25,7 @@ namespace Complete
         private const int m_FirstBullets = 10;//初期状態の弾数
         private int m_NowBullets;//現在の弾数
         private const int m_MaxBullets = 50;//持てる弾数の最大値
-        private const int m_ReloadBullets = 10;//補充される弾数
+        private const int m_RefillBullets = 10;//補充される弾数
 
         private void OnEnable()
         {
@@ -116,6 +116,16 @@ namespace Complete
 
             // Reset the launch force.  This is a precaution in case of missing button events.
             m_CurrentLaunchForce = m_MinLaunchForce;
+        }
+
+
+        private void Refill()//弾丸を補充した際のメソッド
+        {
+            m_NowBullets += m_RefillBullets;
+            if (m_NowBullets >= m_MaxBullets) 
+            {
+                m_NowBullets = m_MaxBullets;
+            }
         }
     }
 }
