@@ -127,5 +127,15 @@ namespace Complete
                 m_NowBullets = m_MaxBullets;
             }
         }
+
+        private void OnCollisionEnter(Collision Cartridge)//カートリッジと衝突した際のメソッド
+        {
+            if(Cartridge.gameObject.tag == "ShellCartridge")
+            {
+                Refill();
+                Destroy(Cartridge.gameObject);
+            }
+        }
+    
     }
 }

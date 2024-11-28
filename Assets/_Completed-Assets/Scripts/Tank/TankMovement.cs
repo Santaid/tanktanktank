@@ -20,7 +20,7 @@ namespace Complete
         private float m_OriginalPitch;              // The pitch of the audio source at the start of the scene.
         private ParticleSystem[] m_particleSystems; // References to all the particles systems used by the Tanks
 
-        public GameObject Turret;    //・砲塔のゲームオブジェクトの参照
+        [SerializeField] private GameObject Turret;    //・砲塔のゲームオブジェクトの参照
         private float m_TurretTurnInputValue; //・砲塔を回転するキーの入力量
         private float m_TurretTurnSpeed = 180f; //・砲塔の回転速度
         private string m_TurretTurnAxisName; //・手順1で定義した砲塔を回転するキーのName
