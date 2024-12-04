@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-
+using System;//新たにインポート
 namespace Complete
 {
     public class GameManager : MonoBehaviour
@@ -22,7 +22,7 @@ namespace Complete
         private TankManager m_RoundWinner;          // Reference to the winner of the current round.  Used to make an announcement of who won.
         private TankManager m_GameWinner;           // Reference to the winner of the game.  Used to make an announcement of who won.
 
-
+        private GameState currentstate;//現在のゲームの状態
         private void Start()
         {
             // Create the delays so they only have to be made once.
@@ -35,8 +35,22 @@ namespace Complete
             // Once the tanks have been created and the camera is using them as targets, start the game.
             StartCoroutine (GameLoop ());
         }
-
-
+        public static event Action<GameState> OnGameStateChanged;//状態を変更した時に新しい状態の通知を行うイベント
+        public enum GameState//ゲームの状態を表す列挙型
+        { 
+            RoundStarting,//ゲームの開始処理中
+            RoundPlaying,//ゲームのプレイ中
+            RoundEnding,//ゲームの終了処理中
+        }
+        private void SetGameState(GameState newstate)//ゲームの状態を変更する
+        {   
+         //   Debug.Log("Gamemode changed to "+newstate);
+            if (currentstate != newstate)
+            {
+                currentstate = newstate;
+                OnGameStateChanged?.Invoke(currentstate);
+            }
+        }
         private void SpawnAllTanks()
         {
             // For all the tanks...
@@ -98,6 +112,7 @@ namespace Complete
 
         private IEnumerator RoundStarting ()
         {
+            SetGameState(GameState.RoundStarting);//ゲームの状態をRoundStartingに変える
             // As soon as the round starts reset the tanks and make sure they can't move.
             ResetAllTanks ();
             DisableTankControl ();
@@ -116,6 +131,7 @@ namespace Complete
 
         private IEnumerator RoundPlaying ()
         {
+            SetGameState(GameState.RoundPlaying);//ゲームの状態をRoundPlayingに変える
             // As soon as the round begins playing let the players control the tanks.
             EnableTankControl ();
 
@@ -133,6 +149,7 @@ namespace Complete
 
         private IEnumerator RoundEnding ()
         {
+            SetGameState(GameState.RoundEnding);//ゲームの状態をRoundEndingに変える
             // Stop tanks from moving.
             DisableTankControl ();
 
