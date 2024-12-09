@@ -22,7 +22,7 @@ namespace Complete
         private TankManager m_RoundWinner;          // Reference to the winner of the current round.  Used to make an announcement of who won.
         private TankManager m_GameWinner;           // Reference to the winner of the game.  Used to make an announcement of who won.
 
-        private GameState currentstate;//現在のゲームの状態
+        private GameState currentstate = GameState.RoundEnding;//現在のゲームの状態　初期値はRoundEndingに設定
         private void Start()
         {
             // Create the delays so they only have to be made once.
@@ -44,7 +44,7 @@ namespace Complete
         }
         private void SetGameState(GameState newstate)//ゲームの状態を変更する
         {   
-         //   Debug.Log("Gamemode changed to "+newstate);
+            //Debug.Log("Gamemode changed to "+newstate);
             if (currentstate != newstate)
             {
                 currentstate = newstate;

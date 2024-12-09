@@ -26,6 +26,7 @@ namespace Complete
         private int m_NowBullets;//現在の弾数
         private const int m_MaxBullets = 50;//持てる弾数の最大値
         private const int m_RefillBullets = 10;//補充される弾数
+        //private event Action<int> OnShellStockChanged;
 
         private void OnEnable()
         {
@@ -128,8 +129,8 @@ namespace Complete
             }
         }
 
-        private void OnCollisionEnter(Collision Cartridge)//カートリッジと衝突した際のメソッド
-        {
+        void OnCollisionEnter(Collision Cartridge)//カートリッジと衝突した際のメソッド
+        {   
             if(Cartridge.gameObject.tag == "ShellCartridge")
             {
                 Refill();
