@@ -12,6 +12,7 @@ public class HudManager : MonoBehaviour
     void Start()
     {
         Complete.GameManager.OnGameStateChanged += HandleGameStateChanged;// OnGameStateChangedイベントにHandleGameStateChangedを登録
+        // += HandleWeaponStockChanged;
     }
 
     // Update is called once per frame
@@ -32,5 +33,9 @@ public class HudManager : MonoBehaviour
             Player1StockArea.SetActive(false);
             Player2StockArea.SetActive(false);
         }           
+    }
+    private void HandleWeaponStockChanged(int m_NowBullets,int m_PlayerNumber)
+    {
+        Debug.Log(m_NowBullets+" bullets left"+m_PlayerNumber);
     }
 }

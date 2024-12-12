@@ -22,8 +22,7 @@ namespace Complete
         private TankMovement m_Movement;                        // Reference to tank's movement script, used to disable and enable control.
         private TankShooting m_Shooting;                        // Reference to tank's shooting script, used to disable and enable control.
         private GameObject m_CanvasGameObject;                  // Used to disable the world space UI during the Starting and Ending phases of each round.
-
-
+        public event Action<int,int> OnWeaponStockChanged;//弾数が変化した際のイベント
         public void Setup ()
         {
             // Get references to the components.
@@ -51,7 +50,8 @@ namespace Complete
         }
         private void HandleShellStockChanged(int m_NowBullets)
         {
-            Debug.Log(m_NowBullets+" bullets left");
+            //Debug.Log(m_NowBullets+" bullets left"+m_PlayerNumber);
+            OnWeaponStockChanged?.Invoke(m_NowBullets,m_PlayerNumber);
         }
 
         // Used during the phases of the game where the player shouldn't be able to control their tank.
