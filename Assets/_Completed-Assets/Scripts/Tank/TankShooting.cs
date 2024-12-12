@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-
+using System;//新たにインポート
 namespace Complete
 {
     public class TankShooting : MonoBehaviour
@@ -26,7 +26,7 @@ namespace Complete
         private int m_NowBullets;//現在の弾数
         private const int m_MaxBullets = 50;//持てる弾数の最大値
         private const int m_RefillBullets = 10;//補充される弾数
-        //private event Action<int> OnShellStockChanged;
+        public event Action<int> OnShellStockChanged;
 
         private void OnEnable()
         {
@@ -101,6 +101,7 @@ namespace Complete
         {
             //１度撃つごとに弾丸を１減らす
             m_NowBullets--;
+            OnShellStockChanged?.Invoke(m_NowBullets);//弾数が変化した際のイベントを実行
             // Set the fired flag so only Fire is only called once.
             m_Fired = true;
 
@@ -127,6 +128,7 @@ namespace Complete
             {
                 m_NowBullets = m_MaxBullets;
             }
+            OnShellStockChanged?.Invoke(m_NowBullets);//弾数が変化した際のイベントを実行
         }
 
         void OnCollisionEnter(Collision Cartridge)//カートリッジと衝突した際のメソッド

@@ -47,8 +47,12 @@ namespace Complete
                 // ... set their material color to the color specific to this tank.
                 renderers[i].material.color = m_PlayerColor;
             }
+            m_Shooting.OnShellStockChanged += HandleShellStockChanged;//イベントを登録
         }
-
+        private void HandleShellStockChanged(int m_NowBullets)
+        {
+            Debug.Log(m_NowBullets+" bullets left");
+        }
 
         // Used during the phases of the game where the player shouldn't be able to control their tank.
         public void DisableControl ()
