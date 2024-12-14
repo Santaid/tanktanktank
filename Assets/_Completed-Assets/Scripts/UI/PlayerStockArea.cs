@@ -18,19 +18,22 @@ public class PlayerStockArea : MonoBehaviour
     {
         
     }
-    public void UpdatePlayerStockArea(int shellstocks){//ストック数の表示
+    public void UpdatePlayerStockArea(int shellstocks)//ストック数の表示
+    {
+        Debug.Log($"{shellstocks} stocks");
+        int onesplace = (shellstocks % 10 != 0 || shellstocks == 0) ? shellstocks % 10: 10;//一の位　shellstocksを10で割った余り、ただし0以外で余りが0なら10にする
         for (int a = 0; a < 10; a++)
         {
-            if (a < shellstocks % 10)
+            if (a < onesplace)
             {
                 shell1[a].enabled = true;
             }
             else shell1[a].enabled = false;
         }
 
-        for (int a = 0;a < 5;a++)
+        for (int a = 0;a < 4;a++)
         {
-            if (a < shellstocks / 10)
+            if (a < (shellstocks-onesplace) / 10)
             {
                 shell10[a].enabled = true;
             }

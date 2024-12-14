@@ -7,12 +7,18 @@ public class HudManager : MonoBehaviour
 {
 
     [SerializeField] GameObject Player1StockArea;
-    [SerializeField] GameObject Player2StockArea;  
+    [SerializeField] GameObject Player2StockArea;
+    private Complete.GameManager gamemanager;
     // Start is called before the first frame update
     void Start()
-    {
+    {   
+        gamemanager = FindObjectOfType<Complete.GameManager>();
         Complete.GameManager.OnGameStateChanged += HandleGameStateChanged;// OnGameStateChangedイベントにHandleGameStateChangedを登録
-        // += HandleWeaponStockChanged;
+        for (int i = 0; i < gamemanager.m_Tanks.Length;i++)
+        {
+        gamemanager.m_Tanks[i].OnWeaponStockChanged += HandleWeaponStockChanged;
+        }
+       
     }
 
     // Update is called once per frame
@@ -34,8 +40,19 @@ public class HudManager : MonoBehaviour
             Player2StockArea.SetActive(false);
         }           
     }
-    private void HandleWeaponStockChanged(int m_NowBullets,int m_PlayerNumber)
+    private void HandleWeaponStockChanged(int m_NowBullets, int m_PlayerNumber)
     {
-        Debug.Log(m_NowBullets+" bullets left"+m_PlayerNumber);
+        
+        //Debug.Log(m_NowBullets + " bullets left" + m_PlayerNumber);
+        if (m_PlayerNumber == 1)
+        {
+            PlayerStockArea stockarea = Player1StockArea.GetComponent<PlayerStockArea>();
+            stockarea.UpdatePlayerStockArea(m_NowBullets);
+        } 
+        else if (m_PlayerNumber == 2)
+        {
+            PlayerStockArea stockarea = Player2StockArea.GetComponent<PlayerStockArea>();
+            stockarea.UpdatePlayerStockArea(m_NowBullets);
+        }
     }
 }

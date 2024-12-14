@@ -45,7 +45,7 @@ namespace Complete
             m_ChargeSpeed = (m_MaxLaunchForce - m_MinLaunchForce) / m_MaxChargeTime;
 
             m_NowBullets = m_FirstBullets;//現在の弾数の再設定
-
+            OnShellStockChanged?.Invoke(m_NowBullets);//弾数が変化した際のイベントを実行
         }
 
 
