@@ -35,7 +35,7 @@ namespace Complete
             // Once the tanks have been created and the camera is using them as targets, start the game.
             StartCoroutine (GameLoop ());
         }
-        public static event Action<GameState> OnGameStateChanged;//状態を変更した時に新しい状態の通知を行うイベント
+        public event Action<GameState> OnGameStateChanged;//状態を変更した時に新しい状態の通知を行うイベント
         public enum GameState//ゲームの状態を表す列挙型
         { 
             RoundStarting,//ゲームの開始処理中

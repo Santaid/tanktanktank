@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Complete;// Complete名前空間をインポート
+//using Complete;// Complete名前空間をインポート(現状意味なし)
 
 public class HudManager : MonoBehaviour
 {
@@ -13,7 +13,7 @@ public class HudManager : MonoBehaviour
     void Start()
     {   
         gamemanager = FindObjectOfType<Complete.GameManager>();
-        Complete.GameManager.OnGameStateChanged += HandleGameStateChanged;// OnGameStateChangedイベントにHandleGameStateChangedを登録
+        gamemanager.OnGameStateChanged += HandleGameStateChanged;// OnGameStateChangedイベントにHandleGameStateChangedを登録
         for (int i = 0; i < gamemanager.m_Tanks.Length;i++)
         {
         gamemanager.m_Tanks[i].OnWeaponStockChanged += HandleWeaponStockChanged;

@@ -1,18 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//using Complete; // Complete名前空間をインポート
+//using Complete; // Complete名前空間をインポート(現状意味なし)
 public class CartridgeSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject CartridgePrehabs;//ShellCartridgeプレハブ 
     [SerializeField] private float interval = 20;//出現する間隔
-   // private Complete.GameManager gameManager; // GameManagerへの参照を保持
+    private Complete.GameManager gamemanager; // GameManagerへの参照を保持
     // Start is called before the first frame update
     void Start()
     {   
-    //    gameManager = FindObjectOfType<Complete.GameManager>();
+        gamemanager = FindObjectOfType<Complete.GameManager>();
     //    Debug.Log(gameManager);//何故見つからない？
-        Complete.GameManager.OnGameStateChanged += HandleGameStateChanged;// OnGameStateChangedイベントにHandleGameStateChangedを登録  
+        gamemanager.OnGameStateChanged += HandleGameStateChanged;// OnGameStateChangedイベントにHandleGameStateChangedを登録  
     }
 
     public IEnumerator SpawnRoutine()//弾の箱を出現させるコルーチン
