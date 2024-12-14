@@ -26,7 +26,8 @@ namespace Complete
         private int m_NowBullets;//現在の弾数
         private const int m_MaxBullets = 50;//持てる弾数の最大値
         private const int m_RefillBullets = 10;//補充される弾数
-        public event Action<int> OnShellStockChanged;
+        private bool arrowstretch = true;//飛距離ゲージが伸びているならtrue、縮むならfalse
+        public event Action<int> OnShellStockChanged;//弾数が変化した際のイベント
 
         private void OnEnable()
         {
@@ -58,22 +59,29 @@ namespace Complete
                 m_NowBullets = 0;
                 return;
             }
-
+        //    Debug.Log($"{arrowstretch},{m_PlayerNumber},{m_CurrentLaunchForce}");
             // The slider should have a default value of the minimum launch force.
             m_AimSlider.value = m_MinLaunchForce;
 
             // If the max force has been exceeded and the shell hasn't yet been launched...
-            if (m_CurrentLaunchForce >= m_MaxLaunchForce && !m_Fired)
+            if (m_CurrentLaunchForce > m_MaxLaunchForce && !m_Fired)//>=を>に変更
             {
                 // ... use the max force and launch the shell.
                 m_CurrentLaunchForce = m_MaxLaunchForce;
-                Fire ();
+                //Fire ();
+                arrowstretch = false;//縮める
+            }
+            else if (m_CurrentLaunchForce < m_MinLaunchForce && !m_Fired)
+            {
+                m_CurrentLaunchForce = m_MinLaunchForce;
+                arrowstretch = true;//伸ばす　   
             }
             // Otherwise, if the fire button has just started being pressed...
             else if (Input.GetButtonDown (m_FireButton))
             {
                 // ... reset the fired flag and reset the launch force.
                 m_Fired = false;
+                arrowstretch = true;//伸ばし始める
                 m_CurrentLaunchForce = m_MinLaunchForce;
 
                 // Change the clip to the charging clip and start it playing.
@@ -83,8 +91,15 @@ namespace Complete
             // Otherwise, if the fire button is being held and the shell hasn't been launched yet...
             else if (Input.GetButton (m_FireButton) && !m_Fired)
             {
-                // Increment the launch force and update the slider.
-                m_CurrentLaunchForce += m_ChargeSpeed * Time.deltaTime;
+                if (arrowstretch == true)//arrowstretch がtrueなら伸ばす
+                {
+                    // Increment the launch force and update the slider.
+                    m_CurrentLaunchForce += m_ChargeSpeed * Time.deltaTime;
+                }
+                else if (arrowstretch == false)//縮み始めたら減らす
+                {
+                    m_CurrentLaunchForce -= m_ChargeSpeed * Time.deltaTime;
+                } 
 
                 m_AimSlider.value = m_CurrentLaunchForce;
             }

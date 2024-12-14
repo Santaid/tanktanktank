@@ -20,7 +20,7 @@ public class PlayerStockArea : MonoBehaviour
     }
     public void UpdatePlayerStockArea(int shellstocks)//ストック数の表示
     {
-        Debug.Log($"{shellstocks} stocks");
+        //Debug.Log($"{shellstocks} stocks");
         int onesplace = (shellstocks % 10 != 0 || shellstocks == 0) ? shellstocks % 10: 10;//一の位　shellstocksを10で割った余り、ただし0以外で余りが0なら10にする
         for (int a = 0; a < 10; a++)
         {
