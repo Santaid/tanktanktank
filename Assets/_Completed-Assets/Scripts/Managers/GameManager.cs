@@ -83,7 +83,7 @@ namespace Complete
             m_CameraControl.m_Targets = targets;
             */
             Transform turretTransform = m_Tanks[0].m_Instance.transform;
-            Debug.Log(turretTransform);
+            //Debug.Log(turretTransform);
             m_TpsCameraControl.targetTank = turretTransform;                
         }
 

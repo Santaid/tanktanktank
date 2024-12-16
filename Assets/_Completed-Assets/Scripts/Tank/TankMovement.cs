@@ -90,7 +90,7 @@ namespace Complete
             m_MovementInputValue = Input.GetAxis (m_MovementAxisName);
             m_TurnInputValue = Input.GetAxis (m_TurnAxisName);
 
-            m_TurretTurnInputValue = Input.GetAxis (m_TurretTurnAxisName);
+            m_TurretTurnInputValue = Input.GetAxis (m_TurretTurnAxisName);//キーを押した量を測定
 
             EngineAudio ();
         }
