@@ -23,6 +23,7 @@ namespace Complete
         private TankManager m_GameWinner;           // Reference to the winner of the game.  Used to make an announcement of who won.
 
         private GameState currentstate = GameState.RoundEnding;//現在のゲームの状態　初期値はRoundEndingに設定
+        public TpsCameraControl m_TpsCameraControl;//TpsCameraControlクラスの参照を保持
         private void Start()
         {
             // Create the delays so they only have to be made once.
@@ -67,6 +68,7 @@ namespace Complete
 
         private void SetCameraTargets()
         {
+            /*
             // Create a collection of transforms the same size as the number of tanks.
             Transform[] targets = new Transform[m_Tanks.Length];
 
@@ -79,6 +81,10 @@ namespace Complete
 
             // These are the targets the camera should follow.
             m_CameraControl.m_Targets = targets;
+            */
+            Transform turretTransform = m_Tanks[0].m_Instance.transform;
+            Debug.Log(turretTransform);
+            m_TpsCameraControl.targetTank = turretTransform;                
         }
 
 
@@ -118,7 +124,7 @@ namespace Complete
             DisableTankControl ();
 
             // Snap the camera's zoom and position to something appropriate for the reset tanks.
-            m_CameraControl.SetStartPositionAndSize ();
+        //    m_CameraControl.SetStartPositionAndSize ();//俯瞰視点の位置を初期化する処理
 
             // Increment the round number and display text showing the players what round it is.
             m_RoundNumber++;
